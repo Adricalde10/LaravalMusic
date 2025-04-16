@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
-        Schema::create('user_cancons', function (Blueprint $table) {
+        Schema::create('albums', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('cancon_id')->constrained('cancons')->onDelete('cascade');
+            $table->string('Nom');
+            $table->integer('Any');
+            $table->timestamps();
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('albums');
     }
 };

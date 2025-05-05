@@ -17,14 +17,22 @@ class SongController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index(): View
     {
+
+        $user = User::find(1);
+        $songs = $user ? $user->songs : collect();
+        
+        foreach ($songs as $song) {
+            echo $song->Titol;
+        }
         //
         // $user = User::create([
-        //     'name' => 'Admin',
-        //     'email' => 'admin@site.com',
-        //     'username' => 'admin',
-        //     'password' => bcrypt('admin123'),
+        //      'name' => 'Admin',
+        //      'email' => 'admin@site.com',
+        //      'username' => 'admin',
+        //      'password' => bcrypt('admin123'),
         // ]);
 
 
@@ -34,38 +42,38 @@ class SongController extends Controller
         //     'username' => 'artist',
         //     'password' => bcrypt('artist123'),
         // ]);
-    //         Permission::create(['name' => 'create-users']);
-    //         Permission::create(['name' => 'edit-users']);
-    //         Permission::create(['name' => 'delete-users']);
+        //      Permission::create(['name' => 'create-users']);
+        //      Permission::create(['name' => 'edit-users']);
+        //      Permission::create(['name' => 'delete-users']);
     
-    //         Permission::create(['name' => 'create-songs']);
-    //         Permission::create(['name' => 'edit-songs']);
-    //         Permission::create(['name' => 'delete-songs']);
-    //         Permission::create(['name' => 'is_admin']);
-    //         Permission::create(['name' => 'is_artist']);
+        //      Permission::create(['name' => 'create-songs']);
+        //      Permission::create(['name' => 'edit-songs']);
+        //      Permission::create(['name' => 'delete-songs']);
+        //      Permission::create(['name' => 'is_admin']);
+        //      Permission::create(['name' => 'is_artist']);
             
-    //         // Create roles and assign existing permissions
-    //         $adminRole = Role::create(['name' => 'Admin']);
-    //         $artistRole = Role::create(['name' => 'Artist']);
+          // Create roles and assign existing permissions
+            //  $adminRole = Role::create(['name' => 'Admin']);
+            //  $artistRole = Role::create(['name' => 'Artist']);
     
-    //         $adminRole->givePermissionTo([
-    //             'create-users',
-    //             'edit-users',
-    //             'delete-users',
-    //             'create-songs',
-    //             'edit-songs',
-    //             'delete-songs',
-    //             'is_admin',
-    //             'is_artist',
-    //         ]);
+        //      $adminRole->givePermissionTo([
+        //          'create-users',
+        //          'edit-users',
+        //          'delete-users',
+        //          'create-songs',
+        //          'edit-songs',
+        //          'delete-songs',
+        //          'is_admin',
+        //          'is_artist',
+        //      ]);
     
-    //         $artistRole->givePermissionTo([
-    //             'create-songs',
-    //             'edit-songs',
-    //             'delete-songs',
-    //             'is_artist',
-    //         ]);
-    // dd($adminRole);
+        //      $artistRole->givePermissionTo([
+        //          'create-songs',
+        //          'edit-songs',
+        //          'delete-songs',
+        //          'is_artist',
+        //      ]);
+         //dd($adminRole);
     
         $user = User::find(1);
         $user->assignRole('Admin');
@@ -75,7 +83,7 @@ class SongController extends Controller
          
     
         $albums = Album::all();
-        $songs = Song::latest()->paginate(3);
+        $songs = Song::with('album')->paginate(10);
         return view('indexsongs', ['songs' => $songs]);
     }
 
@@ -121,7 +129,8 @@ class SongController extends Controller
     public function edit(Song $song): View
     {
         //
-        return view('editsongs', ['song' => $song]);
+        return view('editsongs', ['song' => $song], ['albums' => album::all()]);
+      
     }
 
     /**
@@ -132,7 +141,8 @@ class SongController extends Controller
         //
         
         $song->update($request->all());
-        return redirect()->route('songs.indexsongs')->with('success', 'Tarea actualizada correctamente');
+
+        return redirect()->route('songs.index')->with('success', 'Tarea actualizada correctamente');
     }
 
     /**
@@ -144,4 +154,20 @@ class SongController extends Controller
         $song->delete();
         return redirect()->route('songs.index')->with('success', 'Tarea eliminada correctamente');
     }
+    public function applyArtist($songId, $userId)
+    {
+        $song = Song::find($songId);
+        $user = User::find($userId);
+    
+        // Verificar si la canción y el usuario existen
+        if ($song && $user) {
+            // Asociar al usuario (artista) con la canción
+            $song->users()->attach($user->id);
+    
+            return redirect()->route('songs.index')->with('success', 'Artista añadido correctamente.');
+        }
+    
+        return redirect()->route('songs.index')->with('error', 'No se pudo añadir el artista.');
+    }
+    
 }

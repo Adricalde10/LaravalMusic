@@ -46,12 +46,15 @@
             <div class="col-xs-12 col-sm-12 col-md-6 mt-2">
                 <div class="form-group">
                     <strong>Estado (inicial):</strong>
-                    <select name="status" class="form-select" id="">
-                        <option value="">-- Elige el status --</option>
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="En progreso" >En progreso</option>
-                        <option value="Completada">Completada</option>
+                    <select name="Album_id" class="form-select" required>
+                        <option value="">-- Selecciona un álbum --</option>
+                        @foreach ($albums as $album)
+                            <option value="{{$album->id}}" {{ $song->Album_id == $album->id ? 'selected' : '' }}>
+                                {{$album->Nom}}
+                            </option>
+                        @endforeach
                     </select>
+
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-2">

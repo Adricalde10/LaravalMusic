@@ -10,6 +10,14 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
+                    <div class="col-12">
+                    <div>
+                        <h2 class="text-white">"</h2>
+                    </div>
+                    <div>
+                        <a href="{{route('songs.index')}}" class="btn btn-primary">Canciones</a>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>

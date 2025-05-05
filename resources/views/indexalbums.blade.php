@@ -7,7 +7,12 @@
             <h2 class="text-white">Albums</h2>
         </div>
         <div>
-            <a href="{{route('albums.create')}}" class="btn btn-primary">Crear Album</a>
+            <a href="{{route('songs.index')}}" class="btn btn-primary">Caçons</a>
+        </div>
+        <div>
+            @role('Admin')
+                <a href="{{route('albums.create')}}" class="btn btn-primary">Crear Album</a>
+            @endrole
         </div>
     </div>
 
@@ -22,12 +27,18 @@
                     <td class="fw-bold">{{$album->Nom}}</td>
                     
                     <td>
-                        <a href="{{route('albums.edit', $album)}}" class="btn btn-warning">Editar</a>
-
+                        @role('Admin')
+                            <a href="{{route('albums.edit', $album)}}" class="btn btn-warning">Editar</a>
+                        @endrole
                         <form action="{{route('albums.destroy', $album)}}" method="post" class="d-inline">
                             @csrf
                             @method('DELETE')
+                        @role('Admin')
                             <button type="submit" class="btn btn-danger">Eliminar</button>
+                        @endrole
+                        @role('Admin')
+                            <button type="submit" class="btn btn-danger">Cançons</button>
+                        @endrole
                         </form>
                     </td>
                 </tr>

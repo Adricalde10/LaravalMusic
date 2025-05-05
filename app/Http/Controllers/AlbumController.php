@@ -52,9 +52,15 @@ class AlbumController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Album $album)
+    public function edit(Album $album) : View
     {
         //
+        
+        
+    
+        //
+        return view('editalbums', ['album' => $album, 'albums' => Album::all()]);
+
     }
 
     /**
@@ -63,6 +69,9 @@ class AlbumController extends Controller
     public function update(Request $request, Album $album)
     {
         //
+        $album->update($request->all());
+
+        return redirect()->route('albums.index')->with('success', 'Tarea actualizada correctamente');
     }
 
     /**
@@ -71,5 +80,7 @@ class AlbumController extends Controller
     public function destroy(Album $album)
     {
         //
+        $album->delete();
+        return redirect()->route('albums.index')->with('success', 'Tarea eliminada correctamente');
     }
 }

@@ -2,26 +2,31 @@
 
 @section('content')
 
-@role('Admin')
-    SOC ADMIIIIN
-@endrole
+
 <div class="row">
     <div class="col-12">
         <div>
             <h2 class="text-white">Songs</h2>
         </div>
         <div>
-            <a href="{{route('songs.create')}}" class="btn btn-primary">Crear tarea</a>
+            @role('Admin')
+            <a href="{{route('songs.create')}}" class="btn btn-primary">Crear Canço</a>
+            @endrole
+        </div>
+        <div>
+            <a href="{{route('albums.index')}}" class="btn btn-primary">Albums</a>
         </div>
     </div>
+    
 
     <div class="col-12 mt-4">
         <table class="table table-bordered text-white">
             <tr class="text-secondary">
-                <th>Titulo</th>
                 <th>Duracion</th>
+                <th>Titulo</th>
                 <th>Data de llençament</th>
                 <th>Album</th>
+                <th>Artistas</th>
                 <th>Acción</th>
             </tr>
             @foreach ($songs as $song)
@@ -32,15 +37,32 @@
                         {{$song->Data_llançament}}
                     </td>
                     <td>
-                        <span class="badge bg-warning fs-6"><$song->album->Nom</span>
+                        <span class="badge bg-warning fs-6">{{$song->album->Nom ?? 'Sin álbum'}}</span>
                     </td>
                     <td>
-                        <a href="{{route('songs.edit', $song)}}" class="btn btn-warning">Editar</a>
+                        <span class="badge bg-warning fs-6">
+                            @foreach ($song->users as $user)
+                                {{ $user->name }},
+                            @endforeach
+                            {{-- Si no hay usuarios, mostrar "Sin usuarios" --}}
+                            @if($song->users->isEmpty()) 
+                                Sin usuarios
+                            @endif
+                        </span>
+                        <a href="{{route('artist.index')}}" class="btn btn-warning">Añadir artista</a>
+                        <!-- -->
 
+                    </td>
+                    <td>
+                    @role('Admin')
+                        <a href="{{route('songs.edit', $song)}}" class="btn btn-warning">Editar</a>
+                    @endrole
                         <form action="{{route('songs.destroy', $song)}}" method="post" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            @role('Admin')
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            @endrole
                         </form>
                     </td>
                 </tr>

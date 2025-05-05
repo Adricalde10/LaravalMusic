@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-class Album extends Model
+class Artist extends Model
 {
     //
     use HasFactory;
-    protected $table = 'albums';
-    protected $fillable = ['Nom'];
-    
+    protected $table = 'artist';
+    protected $fillable = ['user_id', 'song_id'];
 }

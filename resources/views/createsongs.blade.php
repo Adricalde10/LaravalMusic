@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-12">
         <div>
-            <h2>Crear Tarea</h2>
+            <h2>Crear Cancion</h2>
         </div>
         <div>
             <a href="{{route('songs.index')}}" class="btn btn-primary">Volver</a>
@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                 <div class="form-group">
-                    <strong>Tarea:</strong>
+                    <strong>Durada:</strong>
                     <input type="text" name="Titol" class="form-control" placeholder="Tarea" >
                 </div>
             </div>
@@ -35,12 +35,13 @@
             <div class="col-xs-12 col-sm-12 col-md-6 mt-2">
                 <div class="form-group">
                     <strong>Estado (inicial):</strong>
-                    <select name="Album_id" class="form-select" id="">
-                        <option value="">-- Elige el status --</option>
+                    <select name="Album_id" class="form-select" required>
+                        <option value="">-- Selecciona un álbum --</option>
                         @foreach ($albums as $album)
                             <option value="{{$album->id}}">{{$album->Nom}}</option>
                         @endforeach
                     </select>
+
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-2">

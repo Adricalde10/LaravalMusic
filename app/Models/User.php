@@ -51,7 +51,7 @@ class User extends Authenticatable
 
    public function songs()
    {
-       return $this->belongsToMany(Song::class, 'artist', 'user_id', 'song_id');
+       return $this->belongsToMany(Song::class, 'artist');
    }
    
 

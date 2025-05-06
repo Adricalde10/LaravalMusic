@@ -12,15 +12,22 @@ use Spatie\Permission\Middleware\RoleMiddleware;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/songs/{id}/users', [SongController::class, 'showUsersForSong']);
 
-// Ruta del índice de canciones (pública, sin necesidad de login)
-Route::resource('songs', SongController::class);
-Route::resource('albums', AlbumController::class);
+
+
 Route::get('/artists/{songId}', [ArtistController::class, 'index'])->name('artist.index');
 Route::post('/songs/{songId}/apply-artist/{userId}', [SongController::class, 'applyArtist'])->name('song.applyArtist');
+Route::post('/song/{songId}/apply-artist/{userId}', [SongController::class, 'apply'])->name('song.apply');
 
-Route::get('/artists', [ArtistController::class, 'showArtists'])->name('artist.index');
+
+// Ruta del índice de canciones (pública, sin necesidad de login)
+Route::resource('songs', SongController::class)->except(['show']);
+
+Route::resource('albums', AlbumController::class);
+
+
+
+
 
 // Rutas protegidas por autenticación
 Route::middleware(['auth'])->group(function () {

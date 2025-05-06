@@ -42,16 +42,15 @@
                     <td>
                         <span class="badge bg-warning fs-6">
                             @foreach ($song->users as $user)
-                                {{ $user->name }},
+                                {{ $user->name }},{{ $user->email }}<br>
                             @endforeach
-                            {{-- Si no hay usuarios, mostrar "Sin usuarios" --}}
                             @if($song->users->isEmpty()) 
                                 Sin usuarios
                             @endif
                         </span>
-                        <a href="{{route('artist.index')}}" class="btn btn-warning">Añadir artista</a>
-                        <!-- -->
-
+                    @role('Admin')
+                        <a href="{{ route('artist.index', ['songId' => $song->id]) }}" class="btn btn-warning">Añadir Artista</a>
+                    @endrole
                     </td>
                     <td>
                     @role('Admin')

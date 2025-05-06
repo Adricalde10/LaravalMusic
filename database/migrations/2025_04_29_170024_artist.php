@@ -24,6 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        // Eliminar la tabla artist cuando se revierta la migración
+        Schema::dropIfExists('artist');
     }
 };

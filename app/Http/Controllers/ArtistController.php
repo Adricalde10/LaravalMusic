@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artist;
-
+use App\Models\Song;
 use Illuminate\Http\Request;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Models\User;
+
 
 class ArtistController extends Controller
 {
@@ -17,11 +18,14 @@ class ArtistController extends Controller
      */
     public function index($songId)
     {
-        // Obtener los usuarios con el rol de 'Artist'
-        $users = User::role('Artist')->get();
+        // Buscar la canción por su ID
+        $song = Song::findOrFail($songId);  // Aquí obtenemos la canción
     
-        // Pasar los usuarios y el ID de la canción a la vista
-        return view('indexartistes', compact('users', 'songId'));
+        // Obtener los usuarios asociados a esa canción
+        $users = User::all();  // O puedes hacer una relación si necesitas solo ciertos usuarios
+    
+        // Pasar los datos a la vista
+        return view('indexartistes', compact('song', 'users'));
     }
 
 
@@ -47,6 +51,7 @@ class ArtistController extends Controller
     public function show(Artist $artist)
     {
         //
+        
     }
 
     /**
@@ -72,22 +77,4 @@ class ArtistController extends Controller
     {
         //
     }
-
-    public function showArtists()
-{
-    // Obtener todos los usuarios (sin filtrar por rol)
-    $users = User::all();  // O puedes usar paginate() si prefieres paginación
-    
-    // Pasar los usuarios a la vista
-    return view('indexartistes', compact('users'));  // La variable aquí es 'users'
-}
-public function apply($songId, $userId)
-{
-    $song = Song::findOrFail($songId);
-    $song->users()->attach($userId); // o syncWithoutDetaching si no quieres duplicados
-
-    return redirect()->route('songs.index'); // vuelve al index de canciones
-}
-
-    
 }

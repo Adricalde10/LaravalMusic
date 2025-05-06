@@ -17,7 +17,7 @@ class Song extends Model
     }
     public function users()
     {
-        return $this->belongsToMany(User::class, 'artist', 'song_id', 'user_id');
+        return $this->belongsToMany(User::class, 'artist');
     }
     
 
